@@ -4,7 +4,6 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import axios from "axios";
-import oauth from "axios-oauth-client";
 import { createBrowserHistory } from "history";
 
 const history = createBrowserHistory({ forceRefresh: true });

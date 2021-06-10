@@ -4,6 +4,9 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import oauth from "axios-oauth-client";
+import { createBrowserHistory } from "history";
+
+const history = createBrowserHistory({ forceRefresh: true });
 
 
 
@@ -33,23 +36,29 @@ const Login = ({ handleClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(phoneNumber, password);
-    handleClose();
-  };
+
+    loginAction(phoneNumber, password).then(
+        (res) =>
+          history.push({
+            pathname: "/ProjectInfiList",
+        })
+    )};
 
   async function loginAction(phone_number, password) {
     const modifiedEmail = phoneNumber + "@clinic-mobile.com";
+
     const getOwnerCredentials = oauth.client(axios.create(), {
-      url: `http://localhost/api/v1/users/open`,
+      url: `http://localhost/api/v1/login/access-token`,
       grant_type: "password",
       username: modifiedEmail,
       password: password,
     });
 
-    const auth = getOwnerCredentials();
+    const auth = await getOwnerCredentials();
     sessionStorage.setItem("token", auth.access_token);
-    sessionStorage.setItem("email", phoneNumber);
+    sessionStorage.setItem("email", phone_number);
   }
+
 
   return (
     <form className={classes.root} onSubmit={handleSubmit}>
@@ -69,7 +78,7 @@ const Login = ({ handleClose }) => {
         onChange={(e) => setPassword(e.target.value)}
       />
       <div>
-        <Button variant="contained" onClick={handleClose}  color="primary">
+        <Button variant="contained" onClick={handleClose}  color="primary" type="submit">
           Sign In
         </Button>
         <Button type="submit" variant="contained">
