@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -72,7 +70,7 @@ export class ProjectInfiList extends React.Component {
     axios.delete(`http://localhost/api/v1/patient/${id}`, headers)
   }
   editProjectInfo(id) {
-    history.push({pathname: `/ProjectInfo`});
+    this.props.history.push(`/ProjectInfo/` + id);
   }
   deleteAfterConfirmation(deleteConfirmed) {
     this.setState({ deleteRecord: false });
@@ -105,12 +103,7 @@ export class ProjectInfiList extends React.Component {
   }
   render() {
     const { classes } = this.props;
-
-    console.log('>>>>>>>>>>>>', this.props)
     const { notify, message, error } = this.state;
-
-
-    console.log('<<<>>>>', this.state)
     const getBookings = this.state.bookings
 
     return (
