@@ -3,7 +3,11 @@ import { makeStyles } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
+import axios from "axios";
+import oauth from "axios-oauth-client";
+import { createBrowserHistory } from "history";
 
+const history = createBrowserHistory({ forceRefresh: true });
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,8 +40,26 @@ const SignUp = ({ handleClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(firstName, lastName, password);
-    handleClose();
+
+    const email = phoneNumber + "@clinic-mobile.com";
+    const fullName = firstName + " " + lastName;
+    const url = `http://localhost/api/v1/users/open`;
+    const data = {
+      full_name: fullName,
+      first_name: firstName,
+      last_name: lastName,
+      id_number: idNumber,
+      phone_number: phoneNumber,
+      date_of_birth: dob,
+      gender,
+      email,
+      password,
+    };
+    return axios.post(url, data).then((res) => {
+      history.push({
+        pathname: `/Login`,
+      });
+    });
   };
 
   return (

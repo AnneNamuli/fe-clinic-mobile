@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import axios from "axios";
+import oauth from "axios-oauth-client";
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -33,6 +36,20 @@ const Login = ({ handleClose }) => {
     console.log(phoneNumber, password);
     handleClose();
   };
+
+  async function loginAction(phone_number, password) {
+    const modifiedEmail = phoneNumber + "@clinic-mobile.com";
+    const getOwnerCredentials = oauth.client(axios.create(), {
+      url: `http://localhost/api/v1/users/open`,
+      grant_type: "password",
+      username: modifiedEmail,
+      password: password,
+    });
+
+    const auth = getOwnerCredentials();
+    sessionStorage.setItem("token", auth.access_token);
+    sessionStorage.setItem("email", phoneNumber);
+  }
 
   return (
     <form className={classes.root} onSubmit={handleSubmit}>
