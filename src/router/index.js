@@ -13,7 +13,7 @@ class Index extends React.Component {
       <Router>
         <App>
           <Switch>
-          <Route exact path="/Login" component={Login} />
+            <Route exact path="/Login" component={Login} />
             <Route exact path="/SignUp" component={SignUp} />
             <Route exact path="/" component={Login} />
             <Route exact path="/ProjectInfiList" component={ProjectInfiList} />

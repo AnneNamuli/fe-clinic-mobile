@@ -1,98 +1,170 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import ProjectInfo from './ProjectInfo';
-import { connect } from 'react-redux';
-import { reset } from 'redux-form';
-import { bindActionCreators } from 'redux';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Notification from '../common/Notification';
+import React from "react";
+import PropTypes from "prop-types";
+// import ProjectInfo from './ProjectInfo';
+import { reset } from "redux-form";
+import { withStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import Card from "@material-ui/core/Card";
+import Button from "@material-ui/core/Button";
+import { createBrowserHistory } from "history";
+import CardContent from "@material-ui/core/CardContent";
+import Notification from "../common/Notification";
+
+const history = createBrowserHistory({ forceRefresh: true });
 
 
+
+const styles = (theme) => ({
+  container: {
+    display: "flex",
+    flexWrap: "wrap",
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 250,
+  },
+  button: {
+    margin: theme.spacing.unit,
+  },
+});
 
 export class EditProjectInfo extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.updateProjectInfo = this.updateProjectInfo.bind(this);
+    this.redirectToProjectInfoList = this.redirectToProjectInfoList.bind(this);
+    this.state = { notify: false, message: "", error: false };
+  }
 
-    constructor(props, context) {
-        super(props, context);
-        this.updateProjectInfo = this.updateProjectInfo.bind(this);
-        this.redirectToProjectInfoList = this.redirectToProjectInfoList.bind(this);
-        this.state = { notify: false, message: '', error: false };
-    }
-
-    componentDidMount() {
-        /*  let id =this.props.id
+  componentDidMount() {
+    /*  let id =this.props.id
         Create and call getProjectInfobyid action*/
-        this.showNotification("Load!! Create and call getProjectInfobyid action");
+    this.showNotification("Load!! Create and call getProjectInfobyid action");
+  }
 
-    }
+  updateProjectInfo(values) {
+    /*  Create and call updateProjectInfo action */
+    this.showNotification("Update!! Create and call updateProjectInfo action");
+  }
 
-    updateProjectInfo(values) {
-        /*  Create and call updateProjectInfo action */
-        this.showNotification("Update!! Create and call updateProjectInfo action");
+  redirectToProjectInfoList() {
+    this.props.dispatch(reset("projectInfo"));
+    this.props.history.push(`/ProjectInfiList`);
+  }
 
-    }
+  showNotification = (msg, err) => {
+    if (err) this.setState({ notify: true, message: msg, error: true });
+    else this.setState({ notify: true, message: msg, error: false });
+  };
 
-    redirectToProjectInfoList() {
-        this.props.dispatch(reset('projectInfo'));
-        this.props.history.push(`/ProjectInfiList`);
-    }
+  handleNotificationClosed = () => {
+    this.setState({
+      notify: false,
+    });
+  };
 
-    showNotification = (msg, err) => {
-        if (err)
-            this.setState({ notify: true, message: msg, error: true });
-        else
-            this.setState({ notify: true, message: msg, error: false });
-    };
+  render() {
+    const { notify, message, error } = this.state;
 
-    handleNotificationClosed = () => {
-        this.setState({
-            notify: false
-        });
-    };
+    const { handleSubmit, classes, onCancel, submitting } = this.props;
 
-    render() {
-        const { notify, message, error } = this.state;
-        return (
+    console.log(">>>>>>>", this.props);
+    return (
+      <div>
+        <Card>
+          <CardContent>
+            <h1>Edit Appointment</h1>
+          </CardContent>
+          <form onSubmit={handleSubmit}>
+            <div className={classes.container}>
             <div>
-                <Card>
-                    <CardContent>
-                        <h1>Edit Project Information</h1>
-                    </CardContent>
-                    <ProjectInfo
+                <TextField
+                  disabled
+                  id="standard-disabled"
+                  label="Patient Name"
+                  defaultValue={this.props.location.state[0].full_name}
+                />
+              </div>
+              <div>
+                <TextField
+                  disabled
+                  id="standard-disabled"
+                  label="Clinic Name"
+                  defaultValue={this.props.location.state[0].name}
+                />
+              </div>
+              <div>
+                <TextField
+                  disabled
+                  id="standard-disabled"
+                  label="Clinic Address"
+                  defaultValue={this.props.location.state[0].address}
+                />
+              </div>
+              <div>
+              <TextField
+                id="datetime-local"
+                label="Next appointment"
+                type="datetime-local"
+                defaultValue="2021-11-24T10:30"
+                className={classes.textField}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </div>
+            </div>
+           
+          </form>
+          {/* <ProjectInfo
                         onSubmit={this.updateProjectInfo}
                         onCancel={this.redirectToProjectInfoList}
                         editMode
-                    />
-                </Card>
+                    /> */}
+          <br />
+          <br />
+          <div>
+            <Button
+              variant="raised"
+              type="submit"
+              color="primary"
+              className={classes.button}
+              disabled={submitting}
+            >
+              Save
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              className={classes.button}
+              onClick={onCancel}
+              onClick={()=>{history.push('/ProjectInfiList')}}
+            >
+              Cancel
+            </Button>
+          </div>
+        </Card>
 
-                <Notification
-                    notify={notify}
-                    message={message}
-                    error={error}
-                    closed={this.handleNotificationClosed}
-                />
-            </div>
-        );
-    }
+        <Notification
+          notify={notify}
+          message={message}
+          error={error}
+          closed={this.handleNotificationClosed}
+        />
+      </div>
+    );
+  }
 }
-
-function mapStateToProps(state, ownProps) {
-    const id = ownProps.match.params.id;
-    return {
-        id: id
-    };
-}
-
-
-
 
 EditProjectInfo.propTypes = {
-    actions: PropTypes.object.isRequired,
-    dispatch: PropTypes.func
+  actions: PropTypes.object.isRequired,
+  dispatch: PropTypes.func,
+  classes: PropTypes.object.isRequired,
 };
 
 EditProjectInfo.contextTypes = {
-    router: PropTypes.object
+  router: PropTypes.object,
 };
 
-export default connect(mapStateToProps, null)(EditProjectInfo);
+export default withStyles(styles)(EditProjectInfo);

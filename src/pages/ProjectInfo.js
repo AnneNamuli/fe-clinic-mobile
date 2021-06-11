@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import { Field, reduxForm } from 'redux-form'
-import { TextField} from 'redux-form-material-ui';
+import { Field } from 'redux-form'
 import { connect } from 'react-redux';
+import TextField from "@material-ui/core/TextField";
+
 
 
 const styles = theme => ({
@@ -31,16 +32,17 @@ class ProjectInfo extends React.Component {
       <form onSubmit={handleSubmit} >
         <div className={classes.container}>
           <div>
-            <Field name="ProjectName" component={TextField} className={classes.textField} margin="normal" label="Project Name" />
+          <TextField disabled id="standard-disabled" label="Disabled" defaultValue="Hello World" />
           </div>
           <div>
-            <Field name="Subject" component={TextField} className={classes.textField} margin="normal" label="Rera No" />
+          <TextField disabled id="standard-disabled" label="Disabled" defaultValue="Hello World" />
           </div>
           <div>
-            <Field name="Type" component={TextField} className={classes.textField} margin="normal" label="Bank Name" />
+          <TextField disabled id="standard-disabled" label="Disabled" defaultValue="Hello World" />
           </div>
           <div>
-            <Field name="Date" component={TextField} type="datetime-local" InputLabelProps={{ shrink: true }} label="Date of Report" title="Date of Report" className={classes.textField} margin="normal" />
+          <TextField disabled id="standard-disabled" label="Disabled" defaultValue="Hello World" />
+
           </div>
         </div>
          <div>
@@ -60,10 +62,10 @@ ProjectInfo.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-ProjectInfo = reduxForm({
-  form: 'projectInfo',
-  enableReinitialize: true
-})(ProjectInfo)
+// ProjectInfo = reduxForm({
+//   form: 'projectInfo',
+//   enableReinitialize: true
+// })(ProjectInfo)
 
 
 export default withStyles(styles)(ProjectInfo);

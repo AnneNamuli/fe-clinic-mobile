@@ -5,6 +5,10 @@ import cyan from '@material-ui/core/colors/cyan';
 import green from '@material-ui/core/colors/green';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Header from './pages/Header';
+import LeftDrawer from './pages/LeftDrawer'
+//import Footer from './pages/Footer';
+// A theme with custom primary and secondary color.
+// It's optional.
 
 
 const theme = createMuiTheme({
@@ -58,6 +62,8 @@ class App extends Component {
         <CssBaseline />
         <div>
           <Header menuStyle={styles.header} handleChangeRequestNavDrawer={this.handleChangeRequestNavDrawer.bind(this)} />
+
+          <LeftDrawer navDrawerOpen={navDrawerOpen} />
 
           <div style={styles.container}>
             {this.props.children}

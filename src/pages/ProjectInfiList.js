@@ -70,7 +70,7 @@ export class ProjectInfiList extends React.Component {
     axios.delete(`http://localhost/api/v1/patient/${id}`, headers)
   }
   editProjectInfo(id) {
-    this.props.history.push(`/ProjectInfo/` + id);
+    this.props.history.push(`/ProjectInfo/` + id, this.state.bookings.filter(val => val.id === id));
   }
   deleteAfterConfirmation(deleteConfirmed) {
     this.setState({ deleteRecord: false });

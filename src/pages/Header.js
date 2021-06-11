@@ -39,7 +39,7 @@ class Header extends React.Component {
               <MenuIcon />
             </IconButton>
             <Typography variant="title" color="inherit">
-              Project Portal
+              Clinic Mobile
           </Typography>
           </Toolbar>
         </AppBar>
